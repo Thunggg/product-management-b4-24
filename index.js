@@ -1,10 +1,10 @@
-const express = require('express');
+const express = require("express");
 require('dotenv').config();
 
-const database = require('./config/database.js');
+const database = require("./config/database");
 database.connect();
 
-const routeClient = require("./routes/client/index.route.js");
+const routeClient = require("./routes/client/index.route");
 
 const app = express();
 const port = process.env.PORT;
@@ -17,5 +17,5 @@ app.use(express.static('public'));
 routeClient.index(app);
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+  console.log(`App listening on port ${port}`);
 });
