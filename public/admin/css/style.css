@@ -4,7 +4,7 @@
   padding: 10px 0;
   position: sticky;
   top: 0;
-  z-index: 999;
+	z-index: 999;
 }
 
 .header .inner-logo a {
@@ -12,7 +12,6 @@
   font-weight: 700;
   color: #fff;
 }
-
 /* End Header */
 
 /* Body */
@@ -32,7 +31,6 @@
   left: 150px;
   width: calc(100% - 180px);
 }
-
 /* End Body */
 
 /* Sider */
@@ -48,7 +46,6 @@
   padding: 6px 10px;
   border-bottom: 1px solid #515151;
 }
-
 /* End Sider */
 
 /* show-alert */
@@ -62,5 +59,14 @@
 .show-alert.hidden {
   display: none;
 }
-
 /* End show-alert */
+
+/* image-preview */
+.image-preview {
+  width: 150px;
+  height: auto;
+  margin-top: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+/* End image-preview */

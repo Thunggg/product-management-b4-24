@@ -4,6 +4,7 @@ var bodyParser = require('body-parser') // dùng để gửi API từ FE lên BE
 var flash = require('express-flash'); //dùng để in ra câu thông báo
 var cookieParser = require('cookie-parser') //nhung theo thang flash
 var session = require('express-session') //nhúng theo thang flash
+var methodOverride = require('method-override') // dùng để cho thẻ form có các phương thức khác ngoài phương thức (GET, POST)
 
 const database = require("./config/database");
 database.connect();
@@ -14,6 +15,9 @@ const systemConfig = require("./config/system");
 
 const app = express();
 const port = process.env.PORT;
+
+app.use(methodOverride('_method')) // dùng để cho thẻ form có các phương thức khác ngoài phương thức (GET, POST)
+
 
 // Flash
 app.use(cookieParser('keyboard cat'));
