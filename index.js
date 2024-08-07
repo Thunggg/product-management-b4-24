@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser') //nhung theo thang flash
 var session = require('express-session') //nhúng theo thang flash
 var methodOverride = require('method-override') // dùng để cho thẻ form có các phương thức khác ngoài phương thức (GET, POST)
 
+
+
 const database = require("./config/database");
 database.connect();
 
@@ -17,6 +19,18 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(methodOverride('_method')) // dùng để cho thẻ form có các phương thức khác ngoài phương thức (GET, POST)
+
+//////////////////////
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: true,
+  store: MongoStore.create({ mongoUrl: 'mongodb://localhost:27017/your-database' }) // sử dụng MongoDB để lưu trữ session
+}));
+/////////////////////
 
 
 // Flash
