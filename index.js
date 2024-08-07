@@ -30,11 +30,10 @@ app.use(bodyParser.json()) // liên kết giữa BE và FE (nếu ông FE gửi 
 app.use(bodyParser.urlencoded({ extended: false }))  // liên kết giữa BE và FE (nếu ông FE gửi data lên ở dạng form)
 
 
-app.set("views", "./views");
+app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
 
-app.use(express.static('public'));
-
+app.use(express.static(`${__dirname}/public`));
 // App locals variable
 app.locals.prefixAdmin = systemConfig.prefixAdmin; // chi dung` cho file pug
 

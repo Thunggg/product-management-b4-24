@@ -8,4 +8,6 @@ router.get("/", controller.index);
 // router.post('/create', (req, res) => {
 //     res.render("client/pages/products/index.pug");
 // });
+
+router.get("/:slug", controller.detail);
 module.exports = router;
