@@ -3,6 +3,9 @@ const systemConfig = require("../../config/system");
 
 const paginationHelper = require("../../helpers/pagination.helper");
 
+const createTreeHelper = require("../../helpers/createTree.helper");
+const ProductCategory = require("../../models/product-category.model");
+
 // [GET] /admin/products/ (lấy ra danh sách sản phẩm)
 module.exports.index = async (req, res) => {
   const find = {
@@ -41,13 +44,21 @@ module.exports.index = async (req, res) => {
   const pagination = await paginationHelper(req, find);
   // Hết Phân trang
 
+  // sắp xếp
+  const sort = {};
+
+  if (req.query.sortKey && req.query.sortValue) {
+    sort[req.query.sortKey] = req.query.sortValue;
+  } else {
+    sort.position = "desc";
+  }
+  // END sắp xếp
+
   const products = await Product
     .find(find)
     .limit(pagination.limitItem)
     .skip(pagination.skip)
-    .sort({
-      position: "desc"
-    });
+    .sort(sort);
 
   // console.log(products);
 
@@ -141,18 +152,20 @@ module.exports.changePosition = async (req, res) => {
 
 // [GET] /admin/products/create (di chuyển đến trang thêm sản phẩm)
 module.exports.create = async (req, res) => {
+  const categories = await ProductCategory.find({
+    deleted: false
+  });
+
+const newCategories = createTreeHelper(categories);
+
   res.render("admin/pages/products/create", {
-    pageTitle: "Thêm mới sản phẩm"
+    pageTitle: "Thêm mới sản phẩm",
+    categories: newCategories
   });
 }
 
 // [POST] /admin/products(thêm sản phẩm)
 module.exports.createPost = async (req, res) => {
-
-
-  if (req.file && req.file.filename) {
-    req.body.thumbnail = `/uploads/${req.file.filename}`;
-  }
 
   req.body.price = parseInt(req.body.price);
   req.body.discountPercentage = parseInt(req.body.discountPercentage);
@@ -179,13 +192,21 @@ module.exports.edit = async (req, res) => {
       _id: id,
       deleted: false
     });
-    if(product){
+    if (product) {
+      const categories = await ProductCategory.find({
+        deleted: false
+    });
+
+    const newCategories = createTreeHelper(categories);
+
+
       res.render("admin/pages/products/edit", {
         pageTitle: "Chỉnh sửa sản phẩm",
-        product: product
+        product: product,
+        categories: newCategories
       });
     }
-    else{
+    else {
       res.redirect(`/${systemConfig.prefixAdmin}/products`);
     }
   } catch (error) {
@@ -197,10 +218,6 @@ module.exports.edit = async (req, res) => {
 module.exports.editPatch = async (req, res) => {
   try {
     const id = req.params.id;
-
-    if (req.file && req.file.filename) {
-      req.body.thumbnail = `/uploads/${req.file.filename}`;
-    }
 
     req.body.price = parseInt(req.body.price);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
@@ -235,13 +252,13 @@ module.exports.detail = async (req, res) => {
       _id: id,
       deleted: false
     });
-    if(product){
+    if (product) {
       res.render("admin/pages/products/detail", {
         pageTitle: "chi tiết sản phẩm",
         product: product
       });
     }
-    else{
+    else {
       res.redirect(`/${systemConfig.prefixAdmin}/products`);
     }
   } catch (error) {

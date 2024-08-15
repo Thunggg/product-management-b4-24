@@ -1,12 +1,16 @@
 const express = require("express");
-const multer  = require('multer') // dùng để cho ông BE hứng đc file ảnh khi ng dùng upload
+const multer = require('multer') // dùng để cho ông BE hứng đc file ảnh khi ng dùng upload
 const router = express.Router();
+
+const uploadCloud = require("../../middlewares/admin/uploadCloud.middlewares");
 
 
 // ----------------[dùng để hứng ảnh của ngưởi dùng và đổi tên file theo tên mong muốn]----------------
-const storageMulterHelper = require("../../helpers/storageMulter.helper");
+// const storageMulterHelper = require("../../helpers/storageMulter.helper");
 
-const upload = multer({ storage: storageMulterHelper.stograge })
+// const upload = multer({ storage: storageMulterHelper.stograge })
+
+const upload = multer();
 //-------------------------------------------------------------------------------------------------------  
 
 const controller = require("../../controllers/admin/product.controller");
@@ -30,8 +34,10 @@ router.get("/create", controller.create); //render ra giao diện thêm mới s�
 router.post(
     "/create",
     upload.single('thumbnail'),
+    uploadCloud.uploadSingle,
     validate.createPost,
     controller.createPost
+
 );
 
 router.get("/edit/:id", controller.edit); //render ra giao diện trang chỉnh sửa sản phẩm
@@ -39,6 +45,7 @@ router.get("/edit/:id", controller.edit); //render ra giao diện trang chỉnh 
 router.patch(
     "/edit/:id",
     upload.single('thumbnail'),
+    uploadCloud.uploadSingle,
     validate.createPost,
     controller.editPatch
 );

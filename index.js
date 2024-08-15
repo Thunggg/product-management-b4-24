@@ -5,7 +5,7 @@ var flash = require('express-flash'); //dùng để in ra câu thông báo
 var cookieParser = require('cookie-parser') //nhung theo thang flash
 var session = require('express-session') //nhúng theo thang flash
 var methodOverride = require('method-override') // dùng để cho thẻ form có các phương thức khác ngoài phương thức (GET, POST)
-
+const path = require('path');
 
 
 const database = require("./config/database");
@@ -32,6 +32,8 @@ app.use(methodOverride('_method')) // dùng để cho thẻ form có các phươ
 // }));
 // /////////////////////
 
+
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce'))); // tinymce là công cụ soạn thảo văn bản
 
 // Flash
 app.use(cookieParser('keyboard cat'));

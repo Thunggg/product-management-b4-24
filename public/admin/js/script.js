@@ -84,66 +84,66 @@ if (listButtonChangeStatus.length > 0) {
             const link = button.getAttribute("link");
             fetch(link, {
                 method: "PATCH",
-                headers:{
+                headers: {
                     "Content-Type": "application/json",
                 },
             })
-            .then(res => res.json())
-            .then(data => {
-                if(data.code == 200){
-                    window.location.reload();
-                }
-            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.code == 200) {
+                        window.location.reload();
+                    }
+                })
         });
     });
 }
 // END button change Status
 
 // Check Item
-    const inputCheckAll = document.querySelector("input[name='checkAll']");
-    if(inputCheckAll){
-        const listInputCheckItem = document.querySelectorAll("input[name='checkItem']");
+const inputCheckAll = document.querySelector("input[name='checkAll']");
+if (inputCheckAll) {
+    const listInputCheckItem = document.querySelectorAll("input[name='checkItem']");
 
-        //Bat su kien click vao` nut checkAll
-        inputCheckAll.addEventListener("click", () => {
-            listInputCheckItem.forEach(listinputCheckItem => {
-                listinputCheckItem.checked = inputCheckAll.checked;
-            });
+    //Bat su kien click vao` nut checkAll
+    inputCheckAll.addEventListener("click", () => {
+        listInputCheckItem.forEach(listinputCheckItem => {
+            listinputCheckItem.checked = inputCheckAll.checked;
         });
+    });
 
-        //Bat su kien click cho nut checkItem
-        listInputCheckItem.forEach(inputCheckItem => {
-            inputCheckItem.addEventListener("click", () => {
-                const listInputCheckItemChecked = document.querySelectorAll("input[name='checkItem']:checked");
-                if(listInputCheckItem.length == listInputCheckItemChecked.length){
-                    inputCheckAll.checked = true;
-                }
-                else{
-                    inputCheckAll.checked = false;
-                }
-            });
+    //Bat su kien click cho nut checkItem
+    listInputCheckItem.forEach(inputCheckItem => {
+        inputCheckItem.addEventListener("click", () => {
+            const listInputCheckItemChecked = document.querySelectorAll("input[name='checkItem']:checked");
+            if (listInputCheckItem.length == listInputCheckItemChecked.length) {
+                inputCheckAll.checked = true;
+            }
+            else {
+                inputCheckAll.checked = false;
+            }
         });
-    }
+    });
+}
 // END Check Item
 
 //Box actions
-    const boxActions = document.querySelector("[box-actions]");
-    if(boxActions){
-        const button = boxActions.querySelector("button[type='button']");
-        button.addEventListener("click", () => {
-            const select = boxActions.querySelector("select");
-            const status = select.value;
-            const listInputChecked = document.querySelectorAll("input[name='checkItem']:checked");
-            
-            const ids = [];
-            listInputChecked.forEach(input => {
-                ids.push(input.value);
-            });
-            if(status != "" && ids.length > 0){
-                const dataChangeMulti = {
-                    status: status,
-                    ids: ids
-                };
+const boxActions = document.querySelector("[box-actions]");
+if (boxActions) {
+    const button = boxActions.querySelector("button[type='button']");
+    button.addEventListener("click", () => {
+        const select = boxActions.querySelector("select");
+        const status = select.value;
+        const listInputChecked = document.querySelectorAll("input[name='checkItem']:checked");
+
+        const ids = [];
+        listInputChecked.forEach(input => {
+            ids.push(input.value);
+        });
+        if (status != "" && ids.length > 0) {
+            const dataChangeMulti = {
+                status: status,
+                ids: ids
+            };
             // Đầu tiên chạy vào API này /admin/products/change-multi thì khớp với controller bên trong product.route.js sau đó chạy vào trong cotroller là controller.changeMulti trong product.controller.js gòi trả ra cái gì đó sau đó bên này sẽ hứng bằng .then(res => res.JSON()) (hàm này chuyển thành js)
 
 
@@ -154,98 +154,98 @@ if (listButtonChangeStatus.length > 0) {
             fetch(link, {
                 method: "PATCH",
                 headers: {
-                  "Content-Type": "application/json",
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(dataChangeMulti),
-            })  
+            })
 
                 .then(res => res.json())
                 .then(data => {
-                    if(data.code == 200){
+                    if (data.code == 200) {
                         window.location.reload();
                     }
                 })
-            }
-            else{
-                alert("Vui Lòng chọn hành động và các Item phải được chọn");
-            }
-        });
-    }
+        }
+        else {
+            alert("Vui Lòng chọn hành động và các Item phải được chọn");
+        }
+    });
+}
 //END Box actions
 
 // Xoá Item (xoá cứng)
-    // const listButtonDelete = document.querySelectorAll("[button-delete]");
-    // if(listButtonDelete.length > 0){
-    //     listButtonDelete.forEach(button =>{
-    //         button.addEventListener("click", () => {
-    //             const id = button.getAttribute("button-delete");
-                
-    //             fetch(`/admin/products/delete/${id}`, {
-    //                 method:"DELETE"
-    //             })
-    //             .then(res => res.json())
-    //             .then(data => {
-    //                 if(data.code == 200){
-    //                     window.location.reload();
-    //                 }
-    //             })
-    //         });
-    //     });
-    // }
+// const listButtonDelete = document.querySelectorAll("[button-delete]");
+// if(listButtonDelete.length > 0){
+//     listButtonDelete.forEach(button =>{
+//         button.addEventListener("click", () => {
+//             const id = button.getAttribute("button-delete");
+
+//             fetch(`/admin/products/delete/${id}`, {
+//                 method:"DELETE"
+//             })
+//             .then(res => res.json())
+//             .then(data => {
+//                 if(data.code == 200){
+//                     window.location.reload();
+//                 }
+//             })
+//         });
+//     });
+// }
 // END Xoá Item
 
 
 // Xoá Item (xoá mềm)
-    const listButtonDelete = document.querySelectorAll("[button-delete]");
-    if(listButtonDelete.length > 0){
-        listButtonDelete.forEach(button =>{
-            button.addEventListener("click", () => {
-                const link = button.getAttribute("button-delete");
-                console.log(link);
-                fetch(link, {
-                    method:"PATCH"
-                })
+const listButtonDelete = document.querySelectorAll("[button-delete]");
+if (listButtonDelete.length > 0) {
+    listButtonDelete.forEach(button => {
+        button.addEventListener("click", () => {
+            const link = button.getAttribute("button-delete");
+            console.log(link);
+            fetch(link, {
+                method: "PATCH"
+            })
                 .then(res => res.json())
                 .then(data => {
-                    if(data.code == 200){
+                    if (data.code == 200) {
                         window.location.reload();
                     }
                 })
-            });
         });
-    }
+    });
+}
 // END Xoá Item
 
 // Thay đổi vị trí
 const listInputPosition = document.querySelectorAll("input[name='position']");
-if(listInputPosition.length > 0) {
-  listInputPosition.forEach(input => {
-    input.addEventListener("change", () => {
-      const link = input.getAttribute("link");
-      const position = parseInt(input.value);
+if (listInputPosition.length > 0) {
+    listInputPosition.forEach(input => {
+        input.addEventListener("change", () => {
+            const link = input.getAttribute("link");
+            const position = parseInt(input.value);
 
-      fetch(link, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          position: position
-        })
-      })
-        .then(res => res.json())
-        .then(data => {
-          console.log(data);
-        })
-    });
-  })
+            fetch(link, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    position: position
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                })
+        });
+    })
 }
 
 // END Thay đổi vị trí
 
 // Show alert (set thời gian để ẩn công thông báo khi cập nhật thành công)
 const showAlert = document.querySelector("div[show-alert]");
-if(showAlert){
+if (showAlert) {
     let time = showAlert.getAttribute("show-alert") || 3000;
     setTimeout(() => {
         showAlert.classList.add("hidden");
@@ -256,15 +256,108 @@ if(showAlert){
 
 // upload Ảnh
 const uploadImage = document.querySelector("[upload-image]");
-if(uploadImage){
+if (uploadImage) {
     const uploadImageInput = uploadImage.querySelector("[upload-image-input]");
     const uploadImagePreview = uploadImage.querySelector("[upload-image-preview]");
 
     uploadImageInput.addEventListener("change", () => {
         const file = uploadImageInput.files[0];
-        if(file){
+        if (file) {
             uploadImagePreview.src = URL.createObjectURL(file);
         }
     });
 }
 // END upload Ảnh
+
+// sort
+const sort = document.querySelector("[sort]");
+if (sort) {
+    let url = new URL(window.location.href);
+
+    const select = sort.querySelector("[sort-select]");
+    select.addEventListener("change", () => {
+        const [sortKey, sortValue] = select.value.split("-");
+
+        if (sortKey && sortValue) {
+            url.searchParams.set("sortKey", sortKey);
+            url.searchParams.set("sortValue", sortValue);
+
+            window.location.href = url.href;
+        }
+    })
+    // Thêm selected mặc định cho option
+    const defaultSortKey = url.searchParams.get("sortKey");
+    const defaultSortValue = url.searchParams.get("sortValue");
+
+    if (defaultSortKey && defaultSortValue) {
+        const optionSelected = select.querySelector(`option[value="${defaultSortKey}-${defaultSortValue}"]`);
+        optionSelected.selected = true;
+        // optionSelected.setAttribute("selected", true);
+    }
+
+    // Tính năng clear
+    const buttonClear = sort.querySelector("[sort-clear]");
+    if (buttonClear) {
+        buttonClear.addEventListener("click", () => {
+            url.searchParams.delete("sortKey");
+            url.searchParams.delete("sortValue");
+
+            window.location.href = url.href;
+        })
+    }
+}
+
+
+
+
+// END sort 
+
+// Phân quyền
+const tablePermissions = document.querySelector("[table-permissions]");
+if (tablePermissions) {
+    const buttonSubmit = document.querySelector("[button-submit]");
+    buttonSubmit.addEventListener("click", () => {
+        const roles = [];
+
+        const listElementRoleId = tablePermissions.querySelectorAll("[role-id]");
+        for (const element of listElementRoleId) {
+            const roleId = element.getAttribute("role-id");
+            const role = {
+                id: roleId,
+                permissions: []
+            };
+
+            const listInputChecked = tablePermissions.querySelectorAll(`input[data-id="${roleId}"]:checked`);
+
+            listInputChecked.forEach(input => {
+                const dataName = input.getAttribute("data-name");
+                role.permissions.push(dataName);
+            });
+
+            roles.push(role);
+        }
+
+        const path = buttonSubmit.getAttribute("button-submit");
+
+        fetch(path, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(roles)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code == 200) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: data.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+    });
+}
+// Hết Phân quyền

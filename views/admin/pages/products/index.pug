@@ -5,8 +5,6 @@ include ../../mixins/pagination.pug
 include ../../mixins/box-actions.pug
 
 block main
-  
-
   h1(class="mb-4") Quản lý sản phẩm
 
   .card.mb-3
@@ -23,7 +21,30 @@ block main
     .card-header Hành động
     .card-body
       +box-actions(`/${prefixAdmin}/products/change-multi`)
+  
+  .card.mb-3
+    .card-header Sắp xếp
+    .card-body
+      .row
+        .col-5
+          div(sort)
+            select(
+              class="form-control"
+              name="sort"
+              sort-select
+            )
+              option(value="position-desc") Vị trí giảm dần
+              option(value="position-asc") Vị trí tăng dần
+              option(value="price-desc") Giá giảm dần
+              option(value="price-asc") Giá tăng dần
+              option(value="title-asc") Tiêu đề A - Z
+              option(value="title-desc") Tiêu đề Z - A
 
+            button(
+              class="btn btn-danger mt-2"
+              sort-clear
+            ) Clear
+  
   .card.mb-3
     .card-header Danh sách
     .card-body
@@ -32,6 +53,7 @@ block main
           href=`/${prefixAdmin}/products/create`
           class="btn btn-outline-success"
         ) + Thêm mới
+      
       table.table.table-hover.table-sm
         thead
           tr
