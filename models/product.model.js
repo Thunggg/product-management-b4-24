@@ -10,12 +10,16 @@ const productSchema = new mongoose.Schema({
   discountPercentage: Number,
   stock: Number,
   thumbnail: String,
+  featured: String,
   status: String,
   position: Number,
+  createdBy: String,
+  updatedBy: String,
   deleted: {
     type: Boolean,
     default: false // nếu khi thêm mới không thêm deleted thì tự đông chuyển về false
   },
+  deletedBy: String,
   slug: {
     type: String,
     slug: "title",

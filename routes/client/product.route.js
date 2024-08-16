@@ -9,5 +9,10 @@ router.get("/", controller.index);
 //     res.render("client/pages/products/index.pug");
 // });
 
-router.get("/:slug", controller.detail);
+
+router.get("/:slugCategory", controller.category);
+
+router.get("/detail/:slug", controller.detail);
+
+
 module.exports = router;
