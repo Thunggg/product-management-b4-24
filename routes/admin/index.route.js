@@ -7,6 +7,7 @@ const accountsRoute = require("./account.route");
 const authRoute = require("./auth.route");
 const authMiddleware = require("../../middlewares/admin/auth.middleware");
 const profileRoute = require("./profile.route");
+const settingRoute = require("./setting.route");
 
 module.exports.index = (app) => {
   const path = `/${systemConfig.prefixAdmin}`;
@@ -20,12 +21,12 @@ module.exports.index = (app) => {
     `${path}/products`,
     authMiddleware.requireAuth,
     productRoute);
-  
+
   app.use(
     `${path}/products-category`,
     authMiddleware.requireAuth,
     productsCategoryRoute);
-  
+
   app.use(
     `${path}/roles`,
     authMiddleware.requireAuth,
@@ -35,13 +36,20 @@ module.exports.index = (app) => {
     `${path}/accounts`,
     authMiddleware.requireAuth,
     accountsRoute);
-   
-    
-    app.use(
-      `${path}/profile`,
-      authMiddleware.requireAuth,
-      profileRoute
-    );  
+
+
+  app.use(
+    `${path}/profile`,
+    authMiddleware.requireAuth,
+    profileRoute
+  );
+
   app.use(`${path}/auth`, authRoute);
+
+  app.use(
+    `${path}/settings`,
+    authMiddleware.requireAuth,
+    settingRoute
+  );
 }
 

@@ -7,6 +7,11 @@ var session = require('express-session') //nhúng theo thang flash
 var methodOverride = require('method-override') // dùng để cho thẻ form có các phương thức khác ngoài phương thức (GET, POST)
 const path = require('path');
 
+// --------------------------------[cài đặt socket.io]--------------------------------
+const http = require('http');
+const { Server } = require("socket.io");
+
+// -----------------------------------------------------------------------------------
 
 const database = require("./config/database");
 database.connect();
@@ -17,6 +22,22 @@ const systemConfig = require("./config/system");
 
 const app = express();
 const port = process.env.PORT;
+
+
+
+// SocketIO
+const server = http.createServer(app);
+const io = new Server(server);
+
+global._io = io;
+
+// END SocketIO 
+
+
+
+
+
+
 
 app.use(methodOverride('_method')) // dùng để cho thẻ form có các phương thức khác ngoài phương thức (GET, POST)
 
@@ -56,6 +77,14 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin; // chi dung` cho file pug
 routeClient.index(app);
 routeAdmin.index(app);
 
-app.listen(port, () => {
+// Áp dụng cho các trang còn lại
+app.get("*", (req, res) => {
+  res.render("client/pages/errors/404", {
+    pageTitle: "404 Not Found"
+  });
+});
+
+
+server.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });

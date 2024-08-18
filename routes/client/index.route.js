@@ -2,13 +2,21 @@ const homeRoute = require("./home.route");
 const productRoute = require("./product.route");
 const searchRoute = require("./search.route");
 const cartRoute = require("./cart.route");
+const checkoutRoute = require("./checkout.route");
+const userRoute = require("./user.route");
+const chatRoute = require("./chat.route");
+
 
 const categoryMiddleware = require("../../middlewares/client/category.middleware");
 const cartMiddleware = require("../../middlewares/client/cart.middleware");
+const userMiddleware = require("../../middlewares/client/user.middleware");
+const settingMiddleware = require("../../middlewares/client/setting.middleware");
 
 module.exports.index = (app) => {
   app.use(categoryMiddleware.category) // menu dùng chung cho tất cả các trang
   app.use(cartMiddleware.cartId) //lưu lại giỏ hàng cho từng người dùng
+  app.use(userMiddleware.infoUser); // kiem tra xem nguoi do da dang nhap hay chua
+  app.use(settingMiddleware.setting); 
 
   app.use("/",categoryMiddleware.category,homeRoute);
   
@@ -17,4 +25,15 @@ module.exports.index = (app) => {
   app.use("/search", searchRoute);
 
   app.use("/cart", cartRoute);
+
+  app.use("/checkout", checkoutRoute);
+  
+  app.use("/user", userRoute);
+
+  app.use(
+    "/chat",
+    userMiddleware.requireAuth,
+    chatRoute
+  );
+
 }

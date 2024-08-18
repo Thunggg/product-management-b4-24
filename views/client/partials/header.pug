@@ -6,7 +6,7 @@ header.header
       .col-3
         .inner-logo
           a(href="/")
-            img(src="/images/logo.svg", alt="Logo")
+            img(src=setting.logo, alt="Logo")
 
       .col-5
         form(
@@ -37,3 +37,15 @@ header.header
                 +sub-menu(layoutCategoryProducts)
             li
               a(href="/cart") Giỏ hàng (#{cartTotal})
+            if(user)
+              li
+                a(href="/user/profile") #{user.fullName}
+              li
+                a(href="/chat") Chat
+              li
+                a(href="/user/logout") Đăng xuất
+            else
+              li
+                a(href="/user/login") Đăng nhập
+              li
+                a(href="/user/register") Đăng ký
